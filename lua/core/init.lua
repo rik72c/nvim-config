@@ -1,2 +1,8 @@
 require("core/mappings")
+--require("core/zero-lsp")
+require("core/autoformat")
+require("core/highlight-yank")
 require("core/treesitter")
+require("core/lsp-zero")
+-- require("core/ks-lsp")
+-- require("core/config/php")
