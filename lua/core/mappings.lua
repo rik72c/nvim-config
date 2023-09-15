@@ -1,3 +1,6 @@
+local helpers = require('core/helpers')
+local phptest = require('core/config/phptest')
+
 local status_ok, which_key = pcall(require, "which-key")
 if not status_ok then
     return
@@ -19,12 +22,32 @@ local mappings = {
     s = {
         name = "[S]earch",
         f = { "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = true})<CR>", "[S]earch Files" },
-        g = { "<cmd>Telescope live_grep theme=ivy<cr>", "[S]earch Grep" }
+        g = { require('telescope.builtin').live_grep, "[G]rep"},
+        b = { "<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false})<CR>", "[B]uffers"},
+        -- g = { "<cmd>Telescope live_grep theme=ivy<cr>", "[S]earch Grep" },
+
+        ["/"] = { function()
+            -- You can pass additional configuration to telescope to change theme, layout, etc.
+            require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+                winblend = 10,
+                previewer = true,
+            })
+        end, "[/]Fuzzy Find"},
+    },
+
+
+    -- debug
+    d = {
+        name = "[D]ebug",
+        b = { function() require('dap').toggle_breakpoint() end, "Toggle [B]reakpoint"},
+        l = { phptest.show_phpunit_tests, "[L]ist Unit Tests"},
+        r = { phptest.rerun_last_test, "[R]epeat last test"},
+        a = { phptest.run_all_test, "Run [A]ll tests"},
     },
 
     f = {
         name = "[F]ormater",
-        f = { "<cmd>normal mzgg=G`z<CR>", "[F]ormat File" },
+        f = { helpers.format_by_lang, "[F]ormat File" },
     },
 
     -- terminal
@@ -32,13 +55,14 @@ local mappings = {
         name = "[T]erminal",
         t = { '<cmd>FloatermNew --title=terminal<CR>', "New [T]erminal" },
         d = { '<cmd>FloatermNew --title=docker --height=0.9 --width=0.9 lazydocker<CR>', "[D]ocker" },
-        g = { "<cmd>LazyGit<CR>", "[G]it" },
+        c = { phptest.open_docker_terminal, "Terminal in [C]ontainer"},
     },
 
     -- git
     g = {
         name = "Git",
         j = { "<cmd>lua require 'gitsigns'.next_hunk()<cr>", "Next Hunk" },
+        g = { "<cmd>LazyGit<CR>", "[G]it" },
     }
 }
 

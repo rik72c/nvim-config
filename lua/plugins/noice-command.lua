@@ -2,6 +2,11 @@ return {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = {
+        presets = {
+            bottom_search = true,
+            command_palette = true,
+            long_message_to_split = true
+        }
         -- add any options here
     },
     dependencies = {
@@ -13,9 +18,10 @@ return {
         {
             "rcarriga/nvim-notify",
             config = function()
-                require("notify").setup({
-                    background_colour = "#000000"
-                })
+                require("notify").setup{
+                    background_colour = "#000000",
+                    render = "compact"
+                }
             end,
         },
     }
