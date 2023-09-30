@@ -7,7 +7,6 @@ return {
             command_palette = true,
             long_message_to_split = true
         }
-        -- add any options here
     },
     dependencies = {
         -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
@@ -18,10 +17,11 @@ return {
         {
             "rcarriga/nvim-notify",
             config = function()
-                require("notify").setup{
+                require("notify").setup({
                     background_colour = "#000000",
-                    render = "compact"
-                }
+                    render = "compact",
+                    top_down = false,
+                })
             end,
         },
     }

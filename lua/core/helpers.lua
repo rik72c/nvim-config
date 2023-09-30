@@ -1,7 +1,7 @@
 local M = {}
 M.format_by_lang = function()
     -- close cmp window if exists
-    require'cmp'.close() -- todo: not working yet
+    require'cmp'.close() -- todo: cmp close is not working yet
 
     local ft = vim.bo.filetype
     local filepath = vim.fn.expand('%:p')
@@ -11,7 +11,7 @@ M.format_by_lang = function()
     vim.fn.delete(temp_file)
 
     if ft == "php" then
-        vim.cmd(string.format("!php-cs-fixer fix %s --rules=@PSR12 --dry-run --diff > %s", filepath, temp_file))
+        vim.cmd(string.format("!php-cs-fixer fix %s --rules=@PSR12 --using-cache=no --dry-run --diff > %s", filepath, temp_file))
 
         -- Read the temporary file
         local lines = vim.fn.readfile(temp_file)
@@ -43,23 +43,23 @@ M.format_by_lang = function()
 end
 
 M.show_phpunit_tests = function()
-      local actions = require('telescope.actions')
-      require('telescope').setup{}
+    local actions = require('telescope.actions')
+    require('telescope').setup{}
 
-      require('telescope.builtin').find_files({
-    prompt_title = 'PHPUnit Tests',
-    cwd = './tests',
-    file_ignore_patterns = { "TestCase.php$" },
-    attach_mappings = function(_, map)
-          map('i', '<CR>', function(prompt_bufnr)
-        local selection = require('telescope.actions.state').get_selected_entry()
-        actions.close(prompt_bufnr)
-        local test_file = selection.value
-        vim.cmd(string.format(":!./vendor/bin/phpunit %s", test_file))
-      end)
-          return true
-            end
-  })
+    require('telescope.builtin').find_files({
+        prompt_title = 'PHPUnit Tests',
+        cwd = './tests',
+        file_ignore_patterns = { "TestCase.php$" },
+        attach_mappings = function(_, map)
+            map('i', '<CR>', function(prompt_bufnr)
+                local selection = require('telescope.actions.state').get_selected_entry()
+                actions.close(prompt_bufnr)
+                local test_file = selection.value
+                vim.cmd(string.format(":!./vendor/bin/phpunit %s", test_file))
+            end)
+            return true
+        end
+    })
 end
 
 return M

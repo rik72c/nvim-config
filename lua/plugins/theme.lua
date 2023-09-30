@@ -1,25 +1,24 @@
--- return	{
---		"bluz71/vim-nightfly-guicolors",
---		name = "nightfly",
---		lazy = false,
---		priority = 1000,
---		config = function()
---			vim.cmd([[colorscheme nightfly]])
---		end,
---	}
+-- https://github.com/navarasu/onedark.nvim
+
 return {
     'navarasu/onedark.nvim',
-    name = onedark,
+    name = "onedark",
     lazy = false,
     enabled = true,
     priority = 1000,
     config = function()
-      require("onedark").setup{
-        transparent = true,
-        lualine = {
-            transparent = true
+        require('onedark').setup{
+            style = "warmer",
+            transparent = true,
+            lualine = {
+                transparent = true
+            },
+            diagnostics = {
+                darker = false,
+                undercurl = true,
+                background = false
+            }
         }
-      }
-      vim.cmd.colorscheme 'onedark'
+        vim.cmd.colorscheme 'onedark'
     end,
-  }
+}

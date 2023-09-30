@@ -3,6 +3,15 @@ return {
   {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
+    config = function()
+        require('telescope').setup({
+            pickers = {
+                colorscheme = {
+                    enable_preview = true
+                }
+            }
+        })
+    end,
     dependencies = {
       'nvim-lua/plenary.nvim',
       -- Fuzzy Finder Algorithm which requires local dependencies to be built.
@@ -20,4 +29,3 @@ return {
     },
   },
 }
-
