@@ -5,7 +5,28 @@ return {
     {
         "rcarriga/nvim-dap-ui",
         config = function()
-            require('dapui').setup()
+            require('dapui').setup({
+                layouts = {
+                    {
+                        elements = {
+                            { id = "scopes", size = 0 },
+                            { id = "breakpoints", size = 0.15 },
+                            { id = "stacks", size = 0.2 },
+                            { id = "watches", size = 0.65 }
+                        },
+                        position = "right",
+                        size = 40
+                    },
+                    {
+                        elements = {
+                            { id = "repl", size = 0.7 },
+                            { id = "console", size = 0.3 }
+                        },
+                        position = "bottom",
+                        size = 15
+                    }
+                },
+            })
             require('neodev').setup({
                 library = { plugins = { "nvim-dap-ui" }, types = true}
             })

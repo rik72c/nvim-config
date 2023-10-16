@@ -1,6 +1,3 @@
--- map leader key
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
 
 -- Set highlight on search
 vim.o.hlsearch = true
@@ -37,7 +34,6 @@ vim.o.timeoutlen = 300
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menu,menuone,noselect'
 
--- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
 vim.cmd[[autocmd VimEnter * hi FloatermBorder guifg=none]]
@@ -53,6 +49,23 @@ vim.opt.shiftwidth = 4
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-vim.opt.termguicolors = true
 
-vim.g.calendar_focus_today = 1
+-- [[ Highlight on yank ]]
+-- See `:help vim.highlight.on_yank()`
+
+local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = highlight_group,
+  pattern = '*',
+})
+
+-- make definition window go away after selection
+vim.cmd [[ autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR> ]]
+
+-- require dap when using php
+vim.cmd [[
+autocmd FileType php lua require('config.dap.php').setup()
+]]

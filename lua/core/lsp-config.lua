@@ -17,26 +17,12 @@ local servers = {
     --         end)()
     --     }
     -- },
-    -- lua_ls = {
-    --     Lua = {
-    --         workspace = { checkThirdParty = false},
-    --         telemetry = { enable = false },
-    --     }
-    -- },
-    -- lua = {
-    --     function()
-    --         return {
-    --             exe = "stylua",
-    --             args = {
-    --                 "--config-path "
-    --                 .. os.getenv "XDG_CONFIG_HOME"
-    --                 .. "/stylua/stylua.toml",
-    --                 "-",
-    --             },
-    --             stdin = true
-    --         }
-    --     end,
-    -- }
+    lua_ls = {
+        Lua = {
+            workspace = { checkThirdParty = false},
+            telemetry = { enable = false },
+        }
+    },
 }
 ---
 
@@ -121,13 +107,13 @@ cmp.setup{
         end, { 'i', 's' }),
     }),
     sources = {
-        { name = 'phpactor' },
-        { name = 'cmp_tabnine' },
-        -- { name = 'intelephense' },
+        -- { name = 'phpactor' },
+        { name = 'cmp_tabnine', max_item_count = 3 },
+        { name = 'intelephense', max_item_count = 5 },
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
-        { name = 'path' },
-        { name = 'buffer' },
+        { name = 'path', max_item_count = 3 },
+        { name = 'buffer', max_item_count = 3 },
     },
 }
 

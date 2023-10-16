@@ -48,7 +48,7 @@ local function get_tests_from_php()
         return tests
     end
 
-    local function get_php_tester()
+    M.get_php_tester = function()
 
         if _G.php_tester then
             return _G.php_tester
@@ -96,9 +96,9 @@ local function get_tests_from_php()
 
                     local cmd = ''
                     if test == "@@all" then
-                        cmd = string.format("%s", get_php_tester())
+                        cmd = string.format("%s", M.get_php_tester())
                     else
-                        cmd = string.format("%s --filter=%s",get_php_tester(), test)
+                        cmd = string.format("%s --filter=%s", M.get_php_tester(), test)
                     end
 
                     _G.latest_test = {

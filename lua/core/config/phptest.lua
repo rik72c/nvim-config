@@ -124,13 +124,13 @@ local function get_php_tests()
             local original_func_name = reverse_transform(func_name)
 
             -- Build the command
-            cmd = string.format("docker exec -it %s php artisan test --filter=%s", vim.g.docker_container_name, original_func_name)
+            cmd = string.format("docker exec -it %s %s --filter=%s", vim.g.docker_container_name, get_php_tests(), original_func_name)
 
 
 
         else
 
-            cmd = string.format("docker exec -it %s php artisan test", vim.g.docker_container_name)
+            cmd = string.format("docker exec -it %s %s", vim.g.docker_container_name, get_php_tests())
         end
 
         -- Save the command

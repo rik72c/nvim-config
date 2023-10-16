@@ -1,11 +1,25 @@
-local helpers = require('core/helpers')
-local phptest = require('core/config/phptest')
+local helpers = require('core.helpers')
+local phptest = require('core.config.phptest')
 local php_debug = require('utils.php_debug')
+local func = require('utils.func')
 
 local status_ok, which_key = pcall(require, "which-key")
 if not status_ok then
     return
 end
+
+-- non-leader keymaps
+-- vim.api.nvim_set_keymap('n', 'gh', function() func.goto_handler_or_command() end, { noremap = true, silent = true })
+
+which_key.register({
+    ['<F5>'] = { "<Cmd>lua require('dap').continue()<CR>", 'Continue' },
+    ['<F9>'] = { "<Cmd>lua require('dap').toggle_breakpoint()<CR>", "Toggle Breakpoint" },
+    ['<F10>'] = { "<Cmd>lua require('dap').step_over()<CR>", 'Step Over' },
+    ['<F11>'] = { "<Cmd>lua require('dap').step_into()<CR>", 'Step Into' },
+    ['<F12>'] = { "<Cmd>lua require('dap').step_out()<CR>", 'Step Out' },
+
+    ['gh'] = { function() func.goto_handler_or_command() end, 'Go to Handler' }
+}, { prefix = "" })
 
 local opts = {
     mode = "n", -- NORMAL mode
@@ -17,20 +31,15 @@ local opts = {
 }
 
 local mappings = {
-    -- ['e'] = { "<cmd>:Telescope file_browser<CR>", "File Browser"},
-    ["e"] = { "<cmd>NvimTreeToggle<CR>", "[E]xplorer" },
-    -- ["e"] = {  function(...)
-    --     if not MiniFiles.close() then MiniFiles.open(vim.api.nvim_buf_get_name(0), false) end
-    -- end
-    -- , "[E]xplorer" },
+    ['e'] = { '<cmd>Neotree toggle<CR>', 'Explorer' },
+    ['<Tab>'] = { '<C-^>', "Toggle last buffer"},
 
     -- search
     s = {
-        name = "[S]earch",
-        f = { "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = true})<CR>", "[S]earch Files" },
-        g = { require('telescope.builtin').live_grep, "[G]rep"},
-        b = { "<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false})<CR>", "[B]uffers"},
-        -- g = { "<cmd>Telescope live_grep theme=ivy<cr>", "[S]earch Grep" },
+        name = "Search",
+        f = { "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = true})<CR>", "Search Files" },
+        g = { require('telescope.builtin').live_grep, "Live Grep"},
+        b = { "<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false})<CR>", "Buffers"},
 
         ["/"] = { function()
             -- You can pass additional configuration to telescope to change theme, layout, etc.
@@ -38,7 +47,7 @@ local mappings = {
                 winblend = 10,
                 previewer = true,
             })
-        end, "[/]Fuzzy Find"},
+        end, "Fuzzy Find"},
     },
 
     -- session
@@ -50,26 +59,34 @@ local mappings = {
     },
 
     -- debug
-    ["b"] = { function() require('dap').toggle_breakpoint() end, "Toggle Breakpoint"},
     d = {
-        name = "[D]ebug",
-        l = { function() require('utils.php_debug').run_selected_test() end, "[L]ist Unit Tests"},
-        -- d = { "<cmd>lua require('dapui').toggle()<CR>", "Open Debug Session"},
+        name = "Debug",
+        l = { function() php_debug.run_selected_test(true) end, "Debug Test" },
+        t = { function() php_debug.run_selected_test() end, "List Tests"},
+        d = { "<cmd>lua require('dapui').toggle()<CR>", "Open Debug Session"},
         r = { php_debug.rerun_test, "Repeat previous test"},
-        a = { phptest.run_all_test, "Run [A]ll tests"},
+        i = { "<CMD>lua require('dapui').toggle()<CR>", "Toggle DAP-UI"},
+
+        a = {
+            name= "Neotest (POC)",
+            a = { "<CMD>lua require('neotest').run.run({suite=true})<CR>"},
+            s = { "<CMD>lua require('neotest').summary()<CR>", "Toggle Summary"}
+        }
     },
 
+    -- formatter
     f = {
-        name = "[F]ormater",
-        f = { helpers.format_by_lang, "[F]ormat File" },
+        name = "Formater",
+        f = { function() helpers.format_by_lang() end, "Format File" },
+        d = { function() helpers.format_by_lang(true) end, "Format File Preview"},
+        o = { "<CMD>PHPDocBlocks<CR>", "Create DocBlock"},
     },
 
     -- terminal
     t = {
-        name = "[T]erminal",
-        t = { '<cmd>FloatermNew --title=terminal<CR>', "New [T]erminal" },
-        d = { '<cmd>FloatermNew --title=docker --height=0.9 --width=0.9 lazydocker<CR>', "[D]ocker" },
-        -- c = { phptest.open_docker_terminal, "Terminal in [C]ontainer"},
+        name = "Terminal",
+        t = { '<cmd>FloatermNew --title=terminal<CR>', "New Terminal" },
+        d = { '<cmd>FloatermNew --title=docker --height=0.9 --width=0.9 lazydocker<CR>', "Docker" },
         c = { function() require('utils.docker').exec_in_container() end, "Terminal in Container"}
     },
 
@@ -80,6 +97,9 @@ local mappings = {
         g = { "<cmd>LazyGit<CR>", "LazyGit" },
         b = { "<cmd>Git blame<CR>", "Git Blame"}
     },
+
+    -- testing
+    z = { function() vim.lsp.codelens.display() end, "test codelens" },
 
     -- other
     w = {

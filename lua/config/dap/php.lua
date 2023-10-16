@@ -14,9 +14,9 @@ M.setup = function()
 
     dap.configurations.php = {
         {
+            name = 'Listen for xdebug',
             type = 'php',
             request = 'launch',
-            name = 'Listen for xdebug',
             port = '9003',
             pathMappings = {
                 ["/var/www/html"] = "${workspaceFolder}"
@@ -27,24 +27,42 @@ M.setup = function()
         },
     }
 
+    local function map_debug_keys()
+        local debug_float_window = {
+            width = 130,
+            height = 40,
+            enter = true,
+            position = nil,
+        }
+        whichkey.register({
+            x = {
+                name = "Dap-UI",
+                {
+                    e = { function() dapui.eval(nil, debug_float_window) end, "Evaluation"},
+                    w = { function() dapui.float_element('watches', debug_float_window) end, "Watch (Float)"},
+                    x = { function() dapui.close() dap.disconnect() end, "Stop Debug"}
+                }
+            } 
+        }, { prefix = '<leader>'})
+    end
+
+    local function unmap_debug_keys()
+    end
+
     dap.listeners.after.event_initialized['dapui_config'] = function()
         dapui.open()
+        map_debug_keys()
     end
+
+    dap.listeners.before.disconnect['dapui_config'] = function()
+        dapui.close()
+        unmap_debug_keys()
+    end
+
     dap.listeners.before.event_terminated['dapui_config'] = function()
-        dapui.close()
+        -- dapui.close()
+        unmap_debug_keys()
     end
-    dap.listeners.before.event_exited['dapui_config'] = function()
-        dapui.close()
-    end
-
-    -- whichkey.register(
-    -- {
-    --     ["d"] = {
-    --         d = { function() require('dap').continue() end, "Open Debug Session" },
-    --     }
-    -- }
-    -- )
-
 end
 
 

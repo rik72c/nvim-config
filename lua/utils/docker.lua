@@ -9,24 +9,33 @@ local finders = require('telescope.finders')
 -- local sorters = require('telescope.sorters')
 local actions = require('telescope.actions')
 
-local function execute_command(cmd, title, debug)
-    if debug == true then
-        local command, args = cmd:match("([^%s]+)%s+(.*)")
-        args = args:gsub("-it%s*", "")
-        local uv = vim.loop
-        local handle
-        handle = uv.spawn(command, {
-            args = vim.fn.split(args, " "),
-            stdio = {nil, nil, nil}
-        }, function(code)
-            vim.notify("Process exited with code: " .. code)
-            handle:close()
-        end)
-    else
-        title = vim.fn.shellescape(title) or "container"
-        local exec_cmd = string.format("FloatermNew --title=%s --wintype=float --width=0.9 --height=0.9 --position=center --autoclose=0 %s",title:gsub(" ", "\\ "), cmd)
-        vim.cmd(exec_cmd)
-    end
+local function execute_command(cmd, title)
+    title = vim.fn.shellescape(title) or "container"
+    local exec_cmd = string.format("FloatermNew --title=%s --wintype=float --width=0.9 --height=0.9 --position=center --autoclose=0 %s",title:gsub(" ", "\\ "), cmd)
+    vim.cmd(exec_cmd)
+end
+
+local function debug_test(container_id, test_cmd)
+    local filterValue = string.match(test_cmd, "--filter=([%w]+)")
+    require('dap').configurations.php = {
+        {
+            name = 'Listen for xdebug',
+            type = 'php',
+            request = 'launch',
+            port = '9003',
+            program = '/Users/navaritcharoenlarp/run_test_in_docker.sh',
+            runtimeExecutable = 'sh',
+            args = { container_id, require('utils.php_debug').get_php_tester(), filterValue},
+            pathMappings = {
+                ["/var/www/html"] = "${workspaceFolder}"
+            },
+            xdebugSettings = {
+                max_depth = 10,
+                max_data = -1
+            }
+        }
+    }
+    require('dap').continue()
 end
 
 M.run_in_docker_container = function(docker_cmd, title, debug)
@@ -34,7 +43,11 @@ M.run_in_docker_container = function(docker_cmd, title, debug)
 
     if _G.docker_active_container then
         local cmd = string.format("docker exec -it %s %s", _G.docker_active_container.id, docker_cmd)
-        execute_command(cmd, title, debug)
+        if debug then
+            debug_test(_G.docker_active_container.id, cmd)
+        else
+            execute_command(cmd, title)
+        end
         return true
     end
 
@@ -68,7 +81,11 @@ M.run_in_docker_container = function(docker_cmd, title, debug)
                             vim.notify('attaching to container ' .. selection.name)
                             local cmd = string.format("docker exec -it %s %s", selection.id, docker_cmd)
                             _G.docker_active_container = selection
-                            execute_command(cmd, title, debug)
+                            if debug == true then
+                                debug_test(selection.id, cmd)
+                            else
+                                execute_command(cmd, title)
+                            end
                         end)
                         return true
                     end,
