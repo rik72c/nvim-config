@@ -1,34 +1,35 @@
--- return {
---     'navarasu/onedark.nvim',
---     name = "onedark",
---     lazy = false,
---     enabled = true,
---     priority = 1000,
---     config = function()
---         require('onedark').setup{
---             style = "warmer",
---             transparent = true,
---             lualine = {
---                 transparent = true
---             },
---             diagnostics = {
---                 darker = false,
---                 undercurl = true,
---                 background = false
---             }
---         }
---         vim.cmd.colorscheme 'onedark'
---     end,
--- }
 return {
-    "bluz71/vim-moonfly-colors",
-    name = "moonfly",
+    'navarasu/onedark.nvim',
+    name = "onedark",
     lazy = false,
+    enabled = true,
     priority = 1000,
     config = function()
-        vim.cmd.colorscheme 'moonfly'
+        require('onedark').setup{
+            style = "warmer",
+            transparent = true,
+            lualine = {
+                transparent = true
+            },
+            diagnostics = {
+                darker = false,
+                undercurl = true,
+                background = false
+            }
+        }
+        vim.cmd.colorscheme 'onedark'
     end,
 }
+-- return {
+--     "bluz71/vim-moonfly-colors",
+--     name = "moonfly",
+--     lazy = false,
+--     priority = 1000,
+--     config = function()
+--         vim.g.moonflyTransparent = true
+--         vim.cmd.colorscheme 'moonfly'
+--     end,
+-- }
 -- return {
 --     "catppuccin/nvim",
 --     name = "catppuccin",

@@ -1,6 +1,6 @@
 return {
     "nvim-neotest/neotest",
-    lazy = true,
+    -- lazy = true,
     dependencies = {
         {
         "olimorris/neotest-phpunit",

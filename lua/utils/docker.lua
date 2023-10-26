@@ -30,8 +30,8 @@ local function debug_test(container_id, test_cmd)
                 ["/var/www/html"] = "${workspaceFolder}"
             },
             xdebugSettings = {
-                max_depth = 10,
-                max_data = -1
+                max_depth = 7,
+                max_data = 10
             }
         }
     }

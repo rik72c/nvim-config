@@ -6,16 +6,18 @@ return {
     opts = {
         options = {
             icons_enabled = false,
-            theme = 'auto',
+            theme = 'powerline',
             component_separators = '|',
             section_separators = '',
         },
-        sections = {
-            lualine_c = {{
-                'filename',
-                file_status = true,
-                path = 2
-            }}
-        }
+        -- sections = {
+        --     lualine_c = {
+        --         {
+        --             'filename',
+        --             file_status = true,
+        --             path = 2,
+        --         },
+        --     }
+        -- }
     },
 }

@@ -28,18 +28,28 @@ M.setup = function()
     }
 
     local function map_debug_keys()
-        local debug_float_window = {
-            width = 130,
-            height = 40,
-            enter = true,
-            position = nil,
-        }
+        local debug_float_window = nil
         whichkey.register({
             x = {
                 name = "Dap-UI",
                 {
-                    e = { function() dapui.eval(nil, debug_float_window) end, "Evaluation"},
-                    w = { function() dapui.float_element('watches', debug_float_window) end, "Watch (Float)"},
+                    e = {
+                        function()
+                            debug_float_window = { width=100, height=30, enter=false, position=nil }
+                            dapui.eval(nil, debug_float_window)
+                        end, "Evaluation"
+                    },
+                    r = {
+                        function()
+                            debug_float_window = { width=100, height=10, enter=false, position="center" }
+                            dapui.float_element('repl', debug_float_window)
+                        end, "Control"
+                    },
+                    w = {
+                        function()
+                            debug_float_window = { width=100, height=30, enter=true, position=nil }
+                            dapui.float_element('watches', debug_float_window)
+                        end, "Watch (Float)"},
                     x = { function() dapui.close() dap.disconnect() end, "Stop Debug"}
                 }
             } 
