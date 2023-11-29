@@ -1,32 +1,47 @@
+-- return { 
+--     "nyoom-engineering/oxocarbon.nvim",
+--     config = function()
+--         vim.opt.background = "dark" -- set this to dark or light
+--         vim.cmd("colorscheme oxocarbon")
+--     end,
+-- }
 return {
-    'navarasu/onedark.nvim',
-    name = "onedark",
+    'dasupradyumna/midnight.nvim',
     lazy = false,
-    enabled = true,
     priority = 1000,
     config = function()
-        require('onedark').setup{
-            style = "warmer",
-            transparent = true,
-            lualine = {
-                transparent = true
-            },
-            diagnostics = {
-                darker = false,
-                undercurl = true,
-                background = false
-            }
-        }
-        vim.cmd.colorscheme 'onedark'
+        vim.cmd.colorscheme 'midnight'
     end,
 }
+-- return {
+--     'navarasu/onedark.nvim',
+--     name = "onedark",
+--     lazy = false,
+--     enabled = true,
+--     priority = 1000,
+--     config = function()
+--         require('onedark').setup{
+--             style = "warmer",
+--             transparent = false,
+--             lualine = {
+--                 transparent = true
+--             },
+--             diagnostics = {
+--                 darker = false,
+--                 undercurl = true,
+--                 background = false
+--             }
+--         }
+--         vim.cmd.colorscheme 'onedark'
+--     end,
+-- }
 -- return {
 --     "bluz71/vim-moonfly-colors",
 --     name = "moonfly",
 --     lazy = false,
 --     priority = 1000,
 --     config = function()
---         vim.g.moonflyTransparent = true
+--         vim.g.moonflyTransparent = false
 --         vim.cmd.colorscheme 'moonfly'
 --     end,
 -- }

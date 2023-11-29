@@ -11,6 +11,12 @@ local function get_project_root_folder()
     return string.gsub(result, '\n', '')
 end
 
+M.open_in_phpstorm = function(file, line)
+    -- vim.error('todo: this is still in progress')
+    local command = "phpstorm --line " .. line .. " " .. file
+    os.execute(command)
+end
+
 M.format_php_file = function(file_path, dry_run)
 
     local format_string = "!php-cs-fixer fix %s --using-cache=no --config=$HOME/Projects/.php-cs-fixer.php"
@@ -33,7 +39,7 @@ M.format_php_file = function(file_path, dry_run)
             print("Review the diff and press Y to apply changes or N to cancel.")
             local answer = vim.fn.input("Apply changes? [Y/n]: ")
             if answer:lower() == "y" then
-                local format_cmd = string.format(format_string .. " --quiet", filepath)
+                format_cmd = string.format(format_string .. " --quiet", filepath)
                 vim.cmd(format_cmd)
             end
             vim.cmd("bd!")
@@ -41,7 +47,6 @@ M.format_php_file = function(file_path, dry_run)
             print("It's already look good to me.")
         end
     else
-        vim.cmd("normal mzgg=G`z")
         local format_cmd = string.format(format_string .. " --quiet", file_path)
         vim.cmd(format_cmd)
     end

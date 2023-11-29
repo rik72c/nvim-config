@@ -1,26 +1,32 @@
 -- language configuration
 local servers = {
-    -- intelephense = {
-    --     cmd = {
-    --         "intelephense",
-    --         "--stdio"
-    --     },
-    --     filetypes = {
-    --         "php"
-    --     },
-    --     init_options = {
-    --         licenseKey = (function()
-    --             local f = assert(io.open(os.getenv("HOME") .. "/intelephense/license.txt", "rb"))
-    --             local content = f:read("*a")
-    --             f:close()
-    --             return string.gsub(content, "%s+", "")
-    --         end)()
-    --     }
+    intelephense = {
+        cmd = {
+            "intelephense",
+            "--stdio"
+        },
+        filetypes = {
+            "php"
+        },
+        init_options = {
+            licenseKey = (function()
+                -- todo: notify if license is not present
+                local f = assert(io.open(os.getenv("HOME") .. "/intelephense/license.txt", "rb"))
+                local content = f:read("*a")
+                f:close()
+                return string.gsub(content, "%s+", "")
+            end)()
+        }
+    },
+    -- pyright = {
     -- },
     lua_ls = {
         Lua = {
             workspace = { checkThirdParty = false},
             telemetry = { enable = false },
+            diagnostics = {
+                globals = { "vim" }
+            },
         }
     },
 }
@@ -71,6 +77,16 @@ cmp.setup{
             luasnip.lsp_expand(args.body)
         end,
     },
+    -- format = function(entry, vim_item)
+    --     local cmp_item = entry:get_completion_item()
+    --
+    --     if entry.source.name == 'nvim_lsp' then
+    --         pcall(function()
+    --             local lspserver_name = nil
+    --             vim_item.menu = lspserver_name
+    --         end)
+    --     end,
+    -- end,
     window = {
         -- completion = {
         -- winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",

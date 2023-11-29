@@ -23,15 +23,15 @@ local function debug_test(container_id, test_cmd)
             type = 'php',
             request = 'launch',
             port = '9003',
-            program = '/Users/navaritcharoenlarp/run_test_in_docker.sh',
+            program = os.getenv("HOME")..'/.config/nvim/ext/php/run_test_in_docker.sh',
             runtimeExecutable = 'sh',
             args = { container_id, require('utils.php_debug').get_php_tester(), filterValue},
             pathMappings = {
                 ["/var/www/html"] = "${workspaceFolder}"
             },
             xdebugSettings = {
-                max_depth = 7,
-                max_data = 10
+                max_depth = 5,
+                -- max_data = 5
             }
         }
     }

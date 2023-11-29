@@ -36,7 +36,7 @@ vim.o.completeopt = 'menu,menuone,noselect'
 
 vim.o.termguicolors = true
 
-vim.cmd[[autocmd VimEnter * hi FloatermBorder guifg=none]]
+vim.cmd[[autocmd VimEnter * hi FloatermBorder guifg=none guibg=none]]
 
 -- tab characters in your file to appear 4 character cells wide
 vim.opt.tabstop = 4

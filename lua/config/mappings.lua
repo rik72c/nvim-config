@@ -34,8 +34,7 @@ local opts = {
 }
 
 local mappings = {
-    -- ['e'] = { '<cmd>NvimTreeToggle<CR>', 'Explorer' },
-    ['e'] = { "<CMD>Neotree toggle<CR>", "Toggle Exploere"},
+    ['e'] = { "<CMD>Neotree toggle<CR>", "Toggle Explorer" },
     ['<Tab>'] = { '<C-^>', "Toggle last buffer"},
 
     n = {
@@ -112,16 +111,22 @@ local mappings = {
     -- formatter
     f = {
         name = "Formater",
-        f = { "<CMD>lua vim.cmd('!w')<CR><CMD>lua require('core.helpers').format_by_lang()<CR>", "Format File" },
-        d = { "<CMD>lua format_by_lang(true)<CR>", "Format File Preview"},
+        f = { "<CMD>lua vim.cmd('w!')<CR><CMD>lua require('core.helpers').format_by_lang()<CR>", "Format File" },
+        d = { "<CMD>lua vim.cmd('w!')<CR><CMD>lua require('core.helpers').format_by_lang(true)<CR>", "Format File Preview"},
         o = { "<CMD>PHPDocBlocks<CR>", "Create DocBlock"},
+    },
+
+    -- open
+    o = {
+        name = "Open",
+        d = { "<CMD>DBUIToggle<CR>", "Database"},
     },
 
     -- terminal
     t = {
         name = "Terminal",
         t = { '<cmd>FloatermNew --title=terminal<CR>', "New Terminal" },
-        d = { '<cmd>FloatermNew --title=docker --height=0.9 --width=0.9 lazydocker<CR>', "Docker" },
+        d = { '<cmd>FloatermNew --title=docker --height=0.9 --width=1.0 lazydocker<CR>', "Docker" },
         c = { function() require('utils.docker').exec_in_container() end, "Terminal in Container"}
     },
 
@@ -148,6 +153,7 @@ local mappings = {
         n = { "<CMD>lua require('utils.php').generate_namespace()<CR>", "PHP:Generate Namespace"},
         d = { "<CMD>lua require('utils.func').pick_folder_in_project()<CR>", "Pick Directory"}
     },
+
 }
 
 which_key.register(mappings, opts)

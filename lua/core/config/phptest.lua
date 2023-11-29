@@ -87,15 +87,7 @@ local function get_php_tests()
             xdebugSettings = {
                 max_depth = 5
             },
-            -- env = {
-            --     DOCKER_CONTAINER_NAME = vim.g.docker_container_name
-            -- }
         }
-
-        -- if test then
-        --     config.env.TEST_NAME = test
-        -- end
-
         dap.configurations.php = {config}
 
         dap.continue()
