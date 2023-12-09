@@ -191,7 +191,7 @@ end
 M.create_new_php_file = function()
     local choices = {
         'query',
-        -- 'command',
+        'command',
         -- 'class',
         -- 'trait',
     }
@@ -212,9 +212,8 @@ M.create_new_php_file = function()
 
             func.pick_folder_in_project(
                 function(dir)
-                    if "query" == file_type then
+                    if "query" == file_type or "command" == file_type then
                         create_command_query(file_type, dir)
-                        -- else
                     end
                     -- print(string.format("creating %s in %s with namespace %s", file_type, dir, generate_namespace(dir)))
                 end,

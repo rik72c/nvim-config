@@ -9,6 +9,18 @@ local sorters = require('telescope.sorters')
 local actions = require('telescope.actions')
 local Job = require('plenary.job')
 
+M.toggle_transparency = function()
+    if vim.g.background_transparency then
+        -- Set to non-transparent background
+        vim.cmd("hi Normal guibg=#000000")
+        vim.g.background_transparency = false
+    else
+        -- Set to transparent background
+        vim.cmd("hi Normal guibg=NONE")
+        vim.g.background_transparency = true
+    end
+end
+
 M.pick_folder_in_project = function(callback, search_dir, title)
 
     -- ignore directories

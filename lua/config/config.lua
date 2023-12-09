@@ -28,7 +28,7 @@ vim.o.smartcase = true
 vim.wo.signcolumn = 'yes'
 
 -- Decrease update time
-vim.o.updatetime = 250
+vim.o.updatetime = 0
 vim.o.timeoutlen = 300
 
 -- Set completeopt to have a better completion experience
@@ -71,3 +71,5 @@ autocmd FileType php lua require('config.dap.php').setup()
 ]]
 
 vim.cmd [[highlight debugPC guibg=#26402F]]
+-- vim.cmd("hi Normal guibg=NONE ctermbg=NONE")
+

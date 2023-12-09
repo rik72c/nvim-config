@@ -19,9 +19,13 @@ local border = {
     {"│", "FloatBorder"},
 }
 
-vim.diagnostic.config({
-    virtual_text = false,
-})
+-- vim.diagnostic.config({
+--     virtual_text = true,  -- This enables inline text
+--     signs = true,         -- This enables signs in the sign column
+--     underline = true,     -- This enables underlining the problematic text
+--     update_in_insert = false, -- Update diagnostics in insert mode (set to true if needed)
+--     severity_sort = true, -- Sort diagnostics by severity
+-- })
 
 -- LSP settings (for overriding per client)
 -- local handlers =  {

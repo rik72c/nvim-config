@@ -9,7 +9,7 @@ return    {
             char = '┊',
         },
         scope = {
-            enabled = true,
+            enabled = false,
             char = '│',
         },
         exclude = {

@@ -1,0 +1,3 @@
+[submodule "lua/app/Vendor/vscode-php-debug"]
+	path = lua/app/Vendor/vscode-php-debug
+	url = https://github.com/xdebug/vscode-php-debug.git
