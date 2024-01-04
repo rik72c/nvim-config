@@ -15,6 +15,7 @@ return {
                     --         -- { id = "scopes", size = 0 },
                     --         -- { id = "breakpoints", size = 0.15 },
                     --         -- { id = "stacks", size = 0.2 },
+                            -- { id = "repl", size = 0.7 },
                     --         { id = "watches", size = 1 }
                     --     },
                     --     position = "right",
@@ -22,11 +23,18 @@ return {
                     -- },
                     {
                         elements = {
-                            { id = "repl", size = 0.7 },
-                            { id = "watches", size = 0.3 }
+                            { id = "watches", size = 0.7 },
+                            { id = "stacks", size = 0.3 },
+                        },
+                        position = "right",
+                        size = 40,
+                    },
+                    {
+                        elements = {
+                            { id = "repl", size = 1 },
                         },
                         position = "bottom",
-                        size = 15
+                        size = 8,
                     }
                 },
             })

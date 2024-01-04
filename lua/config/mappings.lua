@@ -149,7 +149,7 @@ local mappings = {
   -- other
   w = {
     name = "Others",
-    c = { '<cmd>lua require("telescope.builtin").colorscheme()<CR>', "Change Theme"},
+    c = { '<cmd>Themery<CR>', "Change Theme"},
     n = { "<CMD>lua require('utils.php').generate_namespace()<CR>", "PHP:Generate Namespace"},
     d = { "<CMD>lua require('utils.func').pick_folder_in_project()<CR>", "Pick Directory"}
   },

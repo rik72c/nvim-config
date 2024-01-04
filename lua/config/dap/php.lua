@@ -47,7 +47,7 @@ M.setup = function()
                     },
                     w = {
                         function()
-                            debug_float_window = { width=100, height=30, enter=true, position=nil }
+                            debug_float_window = { width=150, height=50, enter=true, position="center" }
                             dapui.float_element('watches', debug_float_window)
                         end, "Watch (Float)"},
                     x = { function() dapui.close() dap.disconnect() end, "Stop Debug"}

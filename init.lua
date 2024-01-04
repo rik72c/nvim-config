@@ -20,13 +20,14 @@ vim.opt.rtp:prepend(lazypath)
 
 -- configure lazy.nvim
 require("lazy").setup({
-    { import = "plugins" }
+    { import = "plugins" },
+    { import = "themes" }
 },
-{
-    -- install = {
-    --     colorscheme = { "onedark" }
-    -- }
-}
+    {
+        -- install = {
+        --     colorscheme = { "onedark" }
+        -- }
+    }
 )
 require('core.lsp-config')
 
