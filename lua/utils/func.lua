@@ -8,6 +8,13 @@ local pickers = require('telescope.pickers')
 local sorters = require('telescope.sorters')
 local actions = require('telescope.actions')
 local Job = require('plenary.job')
+local dapui = require('dapui')
+
+local debug_float_window = { width=150, height=50, enter=true, position="center" }
+
+M.toggle_dapui_watches = function()
+    dapui.float_element("watches", debug_float_window)
+end
 
 M.toggle_transparency = function()
     if vim.g.background_transparency then
@@ -21,6 +28,24 @@ M.toggle_transparency = function()
     end
 end
 
+M.grep_in_folder_or_global = function()
+  -- Check if the current buffer is nvim-tree
+  local bufname = vim.api.nvim_buf_get_name(0)
+  if bufname:match("NvimTree_") then
+    local lib = require('nvim-tree.lib')
+    local node = lib.get_node_at_cursor()
+    if node then
+      local search_path = node.type == 'directory' and node.absolute_path or node.parent.absolute_path
+      require('telescope.builtin').live_grep({ search_dirs = { search_path } })
+      return
+    end
+  end
+
+  -- Default global grep search if not in nvim-tree
+  require('telescope.builtin').live_grep()
+end
+
+-- Bind this function to the same key used globally
 M.pick_folder_in_project = function(callback, search_dir, title)
 
     -- ignore directories

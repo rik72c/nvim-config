@@ -6,7 +6,8 @@ local servers = {
             "--stdio"
         },
         filetypes = {
-            "php"
+            "php",
+            "dapui_watches",
         },
         init_options = {
             licenseKey = (function()
@@ -18,8 +19,27 @@ local servers = {
             end)()
         }
     },
-    -- pyright = {
-    -- },
+    gopls = {
+        cmd = {
+            "gopls"
+        },
+        filetypes = {
+            "go",
+            "gomod",
+            "gowork",
+            "gotmpl"
+        },
+        completeUnimported = true,
+        usePlaceholders = true,
+        analyses = {
+            unusedparams = true,
+        },
+    },
+    tsserver = {
+        init_options = {
+            disableSuggestions = true,
+        }
+    },
     lua_ls = {
         Lua = {
             workspace = { checkThirdParty = false},
@@ -84,6 +104,10 @@ cmp.setup{
     --         end)
     --     end,
     -- end,
+    enabled = function()
+        return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+            or require("cmp_dap").is_dap_buffer()
+    end,
     window = {
         -- completion = {
         -- winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
@@ -120,14 +144,20 @@ cmp.setup{
         end, { 'i', 's' }),
     }),
     sources = {
-        -- { name = 'phpactor' },
-        { name = 'cmp_tabnine', max_item_count = 3 },
+        -- { name = 'cmp_tabnine', max_item_count = 3 },
         { name = 'intelephense', max_item_count = 5 },
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = 'path', max_item_count = 3 },
         { name = 'buffer', max_item_count = 3 },
     },
+    filetype = {
+        { "dap-repl", "dapui_watches" }, {
+            sources = {
+                { name = "dap" },
+            }
+        }
+    }
 }
 
 require('config.diagnostic')

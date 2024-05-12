@@ -10,7 +10,8 @@ local sorters = require('telescope.sorters')
 local docker = require('utils.docker')
 
 local function get_tests_from_php()
-    local handle = io.popen("grep -E '@test|class|function' -r ./tests")
+    local handle = io.popen("find ./tests ./app/OrderingSystem/Tests -type f | xargs grep -E '@test|class|function'")
+    -- local handle = io.popen("grep -E '@test|class|function' -r ./tests")
     if handle == nil then
         vim.notify("Test not found", vim.log.levels.WARN)
         return {}

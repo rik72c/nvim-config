@@ -1,75 +1,36 @@
+local options = {
+    global = {
+        incsearch = true, -- Incremental search
+        hlsearch = false, -- Show highlight when searching
+        mouse = 'a', -- Enable mouse mode
+        clipboard = 'unnamedplus', -- Sync with system clipboard
+        undofile = true, -- Save undo history
+        ignorecase = true, -- Ignore case when searching
+        smartcase = true, -- Smart case when searching
+        updatetime = 0, -- Decrease update time
+        timeoutlen = 300, -- Set timeout length
+        termguicolors = true, -- Enable true colors
+        completeopt = 'menu,menuone,noselect', -- Set completeopt
+        number = true, -- Set line numbers
+        relativenumber = true, -- Set relative line numbers
+        signcolumn = 'yes', -- Set sign column
+        breakindent = true, -- Enable break indent
+        tabstop = 4, -- Set tabstop
+        softtabstop = 0, -- Set soft tabstop
+        expandtab = true, -- Expand tabs
+        shiftwidth = 4, -- Set shift width
+        spelllang = 'en_us', -- Set spell language
+        spell = true, -- Enable spell checking
+        wrap = true, -- Enable line wrapping
+        swapfile = false, -- Disable swap file
+        splitright = true, -- Split right
+        splitbelow = true, -- Split below
+    },
+}
 
--- Set highlight on search
-vim.o.hlsearch = true
+for k, v in pairs(options.global) do
+    vim.opt[k] = v
+end
 
--- Make line numbers default
-vim.wo.number = true
-vim.wo.relativenumber = true
-
--- Enable mouse mode
-vim.o.mouse = 'a'
-
--- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
-vim.o.clipboard = 'unnamedplus'
-
--- Enable break indent
-vim.o.breakindent = true
-
--- Save undo history
-vim.o.undofile = true
-
--- Case-insensitive searching UNLESS \C or capital in search
-vim.o.ignorecase = true
-vim.o.smartcase = true
-
--- Keep signcolumn on by default
-vim.wo.signcolumn = 'yes'
-
--- Decrease update time
-vim.o.updatetime = 0
-vim.o.timeoutlen = 300
-
--- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menu,menuone,noselect'
-
-vim.o.termguicolors = true
-
-vim.cmd[[autocmd VimEnter * hi FloatermBorder guifg=none guibg=none]]
-
--- tab characters in your file to appear 4 character cells wide
-vim.opt.tabstop = 4
--- If your code requires use of actual tab characters these settings prevent unintentional insertion of spaces (these are the defaults, but you may want to set them defensively):
-vim.opt.softtabstop=0
-vim.opt.expandtab = true
--- If you also want to use tabs for indentation, you should also set shiftwidth to be the same as tabstop:
-vim.opt.shiftwidth = 4
-
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
-
--- [[ Highlight on yank ]]
--- See `:help vim.highlight.on_yank()`
-
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
-vim.api.nvim_create_autocmd('TextYankPost', {
-    callback = function()
-        vim.highlight.on_yank()
-    end,
-    group = highlight_group,
-    pattern = '*',
-})
-
--- make definition window go away after selection
-vim.cmd [[ autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR> ]]
-
--- require dap when using php
-vim.cmd [[
-autocmd FileType php lua require('config.dap.php').setup()
-]]
-
-vim.cmd [[highlight debugPC guibg=#26402F]]
--- vim.cmd("hi Normal guibg=NONE ctermbg=NONE")
-
+        vim.g.loaded_netrw = 1 -- Disable netrw
+        vim.g.loaded_netrwPlugin = 1 -- Disable netrw plugin

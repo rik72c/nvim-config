@@ -3,8 +3,6 @@ local M = {}
 M.setup = function()
 
     local dap = require('dap')
-    local dapui = require('dapui')
-    local whichkey = require('which-key')
 
     dap.adapters.php = {
         type = 'executable',
@@ -22,10 +20,13 @@ M.setup = function()
                 ["/var/www/html"] = "${workspaceFolder}"
             },
             xdebugSettings = {
-                max_depth = 5
+                max_depth = 3
             }
         },
     }
+
+    local dapui = require('dapui')
+    local whichkey = require('which-key')
 
     local function map_debug_keys()
         local debug_float_window = nil
@@ -39,9 +40,15 @@ M.setup = function()
                             dapui.eval(nil, debug_float_window)
                         end, "Evaluation"
                     },
+                    s = {
+                        function()
+                            debug_float_window = { width=100, height=30, enter=false, position="center" }
+                            dapui.float_element('stacks', debug_float_window)
+                        end, "Stacks"
+                    },
                     r = {
                         function()
-                            debug_float_window = { width=100, height=10, enter=false, position="center" }
+                            debug_float_window = { width=150, height=50, enter=true, position="center" }
                             dapui.float_element('repl', debug_float_window)
                         end, "Control"
                     },

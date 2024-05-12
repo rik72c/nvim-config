@@ -20,8 +20,8 @@ vim.opt.rtp:prepend(lazypath)
 
 -- configure lazy.nvim
 require("lazy").setup({
+    { import = "themes" },
     { import = "plugins" },
-    { import = "themes" }
 },
     {
         -- install = {
@@ -32,7 +32,9 @@ require("lazy").setup({
 require('core.lsp-config')
 
 require('config.config')
-require('config/mappings')
--- require("core/autoformat")
--- require('core/config/phptest')
-require('app.Application.config')
+require('config.commands')
+require('config.mappings')
+
+require('config.config-new')
+
+vim.cmd('colorscheme midnight')

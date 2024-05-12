@@ -11,7 +11,7 @@ local actions = require('telescope.actions')
 
 local function execute_command(cmd, title)
     title = vim.fn.shellescape(title) or "container"
-    local exec_cmd = string.format("FloatermNew --title=%s --wintype=float --width=0.9 --height=0.9 --position=center --autoclose=0 %s",title:gsub(" ", "\\ "), cmd)
+    local exec_cmd = string.format("FloatermNew --title=%s --wintype=float --width=0.8 --height=0.8 --position=center --autoclose=0 %s",title:gsub(" ", "\\ "), cmd)
     vim.cmd(exec_cmd)
 end
 
