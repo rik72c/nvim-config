@@ -12,6 +12,7 @@ local servers = {
         init_options = {
             licenseKey = (function()
                 -- todo: notify if license is not present
+                -- local f = vim.fn.getenv('INTELEPHENSE_LICENSE') or ''
                 local f = assert(io.open(os.getenv("HOME") .. "/intelephense/license.txt", "rb"))
                 local content = f:read("*a")
                 f:close()
@@ -84,80 +85,6 @@ mason_lspconfig.setup_handlers {
 }
 
 
-local cmp = require('cmp')
-local luasnip = require('luasnip')
-
-cmp.setup{
-    snippet = {
-        -- REQUIRED - you must specify a snippet engine
-        expand = function(args)
-            luasnip.lsp_expand(args.body)
-        end,
-    },
-    -- format = function(entry, vim_item)
-    --     local cmp_item = entry:get_completion_item()
-    --
-    --     if entry.source.name == 'nvim_lsp' then
-    --         pcall(function()
-    --             local lspserver_name = nil
-    --             vim_item.menu = lspserver_name
-    --         end)
-    --     end,
-    -- end,
-    enabled = function()
-        return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
-            or require("cmp_dap").is_dap_buffer()
-    end,
-    window = {
-        -- completion = {
-        -- winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
-        -- col_offset = -3,
-        -- side_padding = 0,
-        -- },
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
-    },
-    mapping = cmp.mapping.preset.insert({
-
-        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<C-e>'] = cmp.mapping.abort(),
-        ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-        ['<Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_next_item()
-                -- elseif luasnip.expand_or_locally_jumpable() then
-                --     luasnip.expand_or_jump()
-            else
-                fallback()
-            end
-        end, { 'i', 's' }),
-        ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_prev_item()
-                -- elseif luasnip.locally_jumpable(-1) then
-                --     luasnip.jump(-1)
-            else
-                fallback()
-            end
-        end, { 'i', 's' }),
-    }),
-    sources = {
-        -- { name = 'cmp_tabnine', max_item_count = 3 },
-        { name = 'intelephense', max_item_count = 5 },
-        { name = 'nvim_lsp' },
-        { name = 'luasnip' },
-        { name = 'path', max_item_count = 3 },
-        { name = 'buffer', max_item_count = 3 },
-    },
-    filetype = {
-        { "dap-repl", "dapui_watches" }, {
-            sources = {
-                { name = "dap" },
-            }
-        }
-    }
-}
 
 require('config.diagnostic')
+require('config.cmp')

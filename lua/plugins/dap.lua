@@ -39,8 +39,7 @@ return {
                     {
                         elements = {
                             { id = "repl", size = 0.5 },
-                            { id = "watches", size = 0.3 },
-                            { id = "breakpoints", size = 0.2 },
+                            { id = "watches", size = 0.5 },
                         },
                         position = "bottom",
                         size = 12

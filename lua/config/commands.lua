@@ -29,4 +29,3 @@ vim.cmd [[highlight TelescopeTitle guibg=none]]
 
 -- get blade file type from php
 vim.cmd [[au BufRead,BufNewFile *.blade.php setlocal filetype=blade]]
-

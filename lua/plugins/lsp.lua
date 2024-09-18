@@ -14,7 +14,6 @@ return {
         opts = {
             auto_install = true,
         }
-        -- 'phpactor/phpactor',
     },
     {
         'saadparwaiz1/cmp_luasnip',
@@ -23,7 +22,9 @@ return {
             'hrsh7th/cmp-nvim-lsp',
             'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-path',
-            'hrsh7th/nvim-cmp',
+            {
+                'hrsh7th/nvim-cmp',
+            }
         },
     },
     {

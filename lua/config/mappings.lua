@@ -3,6 +3,7 @@ local phptest = require('core.config.phptest')
 local php_debug = require('utils.php_debug')
 local func = require('utils.func')
 local dapui = require('dapui')
+local requestr = require('core.requestr')
 
 local status_ok, which_key = pcall(require, "which-key")
 if not status_ok then
@@ -18,10 +19,11 @@ which_key.register({
     -- ['<F2>'] = { function() func.toggle_dapui_watches() end, "Watch (Float)"},
     ['<F3>'] = { "<Cmd>FloatermToggle<CR>", 'Toggle Floaterm' },
     ['<F5>'] = { "<Cmd>lua require('dap').continue()<CR>", 'Continue' },
-    ['<C-t>'] = { "<Cmd>lua require('dap').toggle_breakpoint()<CR>", "Toggle Breakpoint" },
-    ['<C-9>'] = { "<Cmd>lua require('dap').step_over()<CR>", 'Step Over' },
-    ['<C-0>'] = { "<Cmd>lua require('dap').step_into()<CR>", 'Step Into' },
-    ['<C-->'] = { "<Cmd>lua require('dap').step_out()<CR>", 'Step Out' },
+    ['<F6>'] = { "<Cmd>lua require('utils.func').toggle_dapui_evaluation()<CR>", "Evaluation"},
+    ['<F9>'] = { "<Cmd>lua require('dap').toggle_breakpoint()<CR>", "Toggle Breakpoint" },
+    ['<F10>'] = { "<Cmd>lua require('dap').step_over()<CR>", 'Step Over' },
+    ['<F11>'] = { "<Cmd>lua require('dap').step_into()<CR>", 'Step Into' },
+    ['<F12>'] = { "<Cmd>lua require('dap').step_out()<CR>", 'Step Out' },
 
     ['gh'] = { function() func.goto_handler_or_command() end, 'Go to Handler' }
 }, { prefix = "" })
@@ -79,7 +81,7 @@ local mappings = {
         g = { "<CMD>lua require('utils.func').grep_in_folder_or_global()<CR>", "Live Grep"},
         b = { "<CMD>ReachOpen buffers<CR>", "Buffers"},
         m = { "<CMD>ReachOpen marks<CR>", "Marks"},
-        t = { "<CMD>ReachOpen tabpages<CR>", "List Tabs"},
+        t = { "<CMD>Telescope buffers<CR>", "List Tabs"},
 
 
         ["/"] = { function()
@@ -110,6 +112,9 @@ local mappings = {
         d = { "<cmd>lua require('dapui').toggle()<CR>", "Open Debug Session"},
         r = { php_debug.rerun_test, "Repeat previous test"},
         i = { "<CMD>lua require('dapui').toggle()<CR>", "Toggle DAP-UI"},
+
+        h = { function() requestr.prompt_and_request() end, "Run HTTP Request"},
+        u = { function() requestr.repeat_last_request() end, "Re-Run HTTP Request"},
 
         a = {
             name= "Neotest (POC)",

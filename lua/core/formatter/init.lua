@@ -25,4 +25,9 @@ M.format_by_lang = function(dryrun)
 
     vim.cmd('silent edit')
 end
+
+function M.format_json(string)
+    return require('core.formatter.json').format_json(string)
+end
+
 return M

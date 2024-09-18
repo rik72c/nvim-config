@@ -7,6 +7,7 @@ M.setup = function()
     dap.adapters.php = {
         type = 'executable',
         command = 'node',
+        -- args = { '../ext/vscode-php-debug/out/phpDebug.js'},
         args = { os.getenv("HOME").."/vscode-php-debug/out/phpDebug.js"},
     }
 
